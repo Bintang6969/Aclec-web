@@ -11,7 +11,10 @@ class LifeTrackerEntry extends Model
         'calories_in', 'calories_out', 'exercise_minutes', 'notes',
     ];
 
-    protected $casts = ['entry_date' => 'date'];
+    protected $casts = [
+        'entry_date'  => 'date',
+        'sleep_hours' => 'float',
+    ];
 
     public function user()
     {

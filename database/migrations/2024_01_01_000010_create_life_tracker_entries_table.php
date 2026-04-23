@@ -12,10 +12,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->date('entry_date');
-            $table->unsignedSmallInteger('water_ml')->default(0);
-            $table->unsignedSmallInteger('sleep_hours')->default(0);
-            $table->unsignedSmallInteger('calories_in')->default(0);
-            $table->unsignedSmallInteger('calories_out')->default(0);
+            $table->unsignedInteger('water_ml')->default(0);
+            $table->decimal('sleep_hours', 4, 1)->default(0);  // support 7.5, 8.0 etc
+            $table->unsignedInteger('calories_in')->default(0);
+            $table->unsignedInteger('calories_out')->default(0);
             $table->unsignedSmallInteger('exercise_minutes')->default(0);
             $table->text('notes')->nullable();
             $table->timestamps();

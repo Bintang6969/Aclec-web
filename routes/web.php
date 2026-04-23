@@ -8,6 +8,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LifeTrackerController;
 use App\Http\Controllers\LifestyleScoreController;
 use App\Http\Controllers\WorkoutPlannerController;
+use App\Http\Controllers\AiController;
+use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 
 // Welcome / Landing Page
@@ -18,9 +20,9 @@ Route::get('/', function () {
 // Guest-only routes
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:10,1');
 });
 
 // Auth-protected routes
@@ -49,5 +51,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/consultation', [ConsultationController::class, 'index'])->name('consultation.index');
     Route::post('/consultation', [ConsultationController::class, 'send'])->name('consultation.send');
     Route::delete('/consultation/clear', [ConsultationController::class, 'clear'])->name('consultation.clear');
+    Route::post('/ask-gemini', [ConsultationController::class, 'askGeminiJson'])->name('ask-gemini');
+
+    Route::get('/lifestyle-score/calculate', [LifestyleScoreController::class, 'calculate'])->name('lifestyle-score.calculate');
+
+    Route::get('/leaderboard', [App\Http\Controllers\leaderboard::class, 'index'])->name('leaderboard.index');
 });
+
+
+Route::post('/ask-gemini', [AiController::class, 'ask']);
+
+Route::get('/lupa-password', [ResetPasswordController::class, 'showForm'])->name('reset-pw');
+Route::post('/reset-password-process', [ResetPasswordController::class, 'process']);
 

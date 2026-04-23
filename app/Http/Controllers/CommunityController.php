@@ -29,6 +29,10 @@ class CommunityController extends Controller
             'content' => $data['content'],
         ]);
 
+        if ($request->wantsJson()) {
+            return response()->json(['success' => true]);
+        }
+
         return redirect()->route('community.index')->with('success', 'Postingan berhasil dibagikan!');
     }
 

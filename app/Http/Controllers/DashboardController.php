@@ -31,6 +31,6 @@ class DashboardController extends Controller
             ->orderBy('entry_date')
             ->get(['entry_date', 'calories_in', 'calories_out']);
 
-        return view('dashboard', compact('user', 'todayEntry', 'todayWorkouts', 'latestScore', 'weeklyCalories'));
+        return view('dashboard2', compact('user', 'todayEntry', 'todayWorkouts', 'latestScore', 'weeklyCalories'));
     }
 }

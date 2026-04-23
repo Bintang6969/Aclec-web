@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\WelcomeMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
@@ -63,6 +65,13 @@ class AuthController extends Controller
 
         Auth::login($user);
         $request->session()->regenerate();
+
+        // Send welcome email (non-blocking: failure won't break registration)
+        try {
+            Mail::to($user->email)->send(new WelcomeMail($user));
+        } catch (\Throwable) {
+            // Log silently — do not disrupt the user flow
+        }
 
         return redirect()->route('dashboard');
     }

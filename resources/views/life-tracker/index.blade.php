@@ -15,33 +15,55 @@
                 </div>
                 <div class="card-body">
                     @if(session('success'))
-                        <div class="alert alert-success py-2 small">{{ session('success') }}</div>
+                        <div class="alert alert-success py-2 small"><i class="bi bi-check-circle"></i> {{ session('success') }}</div>
                     @endif
-                    <form method="POST" action="{{ route('life-tracker.store') }}">
+                    @if($errors->any())
+                        <div class="alert alert-danger py-2 small">
+                            @foreach($errors->all() as $error)
+                                <div><i class="bi bi-exclamation-circle"></i> {{ $error }}</div>
+                            @endforeach
+                        </div>
+                    @endif
+                    <form method="POST" action="{{ route('life-tracker.store') }}" novalidate>
                         @csrf
                         <div class="mb-3">
                             <label class="form-label small fw-medium">Tanggal</label>
-                            <input type="date" name="entry_date" value="{{ old('entry_date', date('Y-m-d')) }}" required class="form-control form-control-sm">
+                            <input type="date" name="entry_date" value="{{ old('entry_date', date('Y-m-d')) }}" required 
+                                   class="form-control form-control-sm @error('entry_date') is-invalid @enderror">
+                            @error('entry_date')<div class="invalid-feedback small">{{ $message }}</div>@enderror
                         </div>
                         <div class="mb-3">
                             <label class="form-label small fw-medium">Air Minum (ml)</label>
-                            <input type="number" name="water_ml" value="{{ old('water_ml', 0) }}" min="0" class="form-control form-control-sm" placeholder="cth: 2000">
+                            <input type="number" name="water_ml" value="{{ old('water_ml', 0) }}" min="0" required 
+                                   class="form-control form-control-sm @error('water_ml') is-invalid @enderror" placeholder="cth: 2000">
+                            @error('water_ml')<div class="invalid-feedback small">{{ $message }}</div>@enderror
                         </div>
                         <div class="mb-3">
                             <label class="form-label small fw-medium">Durasi Tidur (jam)</label>
-                            <input type="number" step="0.5" name="sleep_hours" value="{{ old('sleep_hours', 0) }}" min="0" max="24" class="form-control form-control-sm" placeholder="cth: 7.5">
+                            <input type="number" step="0.5" name="sleep_hours" value="{{ old('sleep_hours', 0) }}" min="0" max="24" required 
+                                   class="form-control form-control-sm @error('sleep_hours') is-invalid @enderror" placeholder="cth: 7.5">
+                            @error('sleep_hours')<div class="invalid-feedback small">{{ $message }}</div>@enderror
                         </div>
                         <div class="mb-3">
                             <label class="form-label small fw-medium">Kalori Masuk (kcal)</label>
-                            <input type="number" name="calories_in" value="{{ old('calories_in', 0) }}" min="0" class="form-control form-control-sm">
+                            <input type="number" name="calories_in" value="{{ old('calories_in', 0) }}" min="0" required 
+                                   class="form-control form-control-sm @error('calories_in') is-invalid @enderror">
+                            @error('calories_in')<div class="invalid-feedback small">{{ $message }}</div>@enderror
                         </div>
                         <div class="mb-3">
                             <label class="form-label small fw-medium">Menit Olahraga</label>
-                            <input type="number" name="exercise_minutes" value="{{ old('exercise_minutes', 0) }}" min="0" class="form-control form-control-sm">
+                            <input type="number" name="exercise_minutes" value="{{ old('exercise_minutes', 0) }}" min="0" required 
+                                   class="form-control form-control-sm @error('exercise_minutes') is-invalid @enderror">
+                            @error('exercise_minutes')<div class="invalid-feedback small">{{ $message }}</div>@enderror
                         </div>
                         <div class="mb-3">
                             <label class="form-label small fw-medium">Catatan (opsional)</label>
-                            <textarea name="notes" rows="2" class="form-control form-control-sm" placeholder="Apa yang kamu rasakan hari ini?">{{ old('notes') }}</textarea>
+                            <textarea name="notes" rows="2" class="form-control form-control-sm @error('notes') is-invalid @enderror" 
+                                      placeholder="Apa yang kamu rasakan hari ini?">{{ old('notes') }}</textarea>
+                            @error('notes')<div class="invalid-feedback small">{{ $message }}</div>@enderror
+                        </div>
+                        <div class="alert alert-info small py-2 mb-3">
+                            <i class="bi bi-info-circle"></i> Kalori terbakar dihitung otomatis dari durasi olahraga (~5 kcal/menit)
                         </div>
                         <button type="submit" class="btn btn-success w-100 btn-sm">Simpan</button>
                     </form>

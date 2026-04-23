@@ -55,6 +55,14 @@ class WorkoutPlannerController extends Controller
             'exercise_minutes' => $totalMinutes,
         ]);
 
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success'         => true,
+                'calories_burned' => $session->calories_burned,
+                'total_calories'  => $totalCaloriesBurned,
+            ]);
+        }
+
         return redirect()->route('workout-planner.index')->with('success', 'Sesi workout berhasil dicatat! ' . $session->calories_burned . ' kkal terbakar.');
     }
 

@@ -32,6 +32,20 @@ class LifestyleScoreController extends Controller
         return view('lifestyle-score.index', compact('user', 'todayScore', 'topScores', 'history'));
     }
 
+    /**
+     * JSON endpoint for SPA: recalculate today's score and return it.
+     */
+    public function calculate()
+    {
+        $score = $this->calculateAndSave(Auth::user(), now()->toDateString());
+
+        return response()->json([
+            'score'          => $score->score,
+            'reward_type'    => $score->reward_type,
+            'reward_message' => $score->reward_message,
+        ]);
+    }
+
     private function calculateAndSave($user, string $date): LifestyleScore
     {
         $entry = LifeTrackerEntry::where('user_id', $user->id)
@@ -58,7 +72,7 @@ class LifestyleScoreController extends Controller
 
         if ($score >= self::HEALTHY_THRESHOLD) {
             $rewardType = 'reward';
-            $message    = 'Kerja bagus! Kamu berhak menikmati makanan favoritmu hari ini. 🎉';
+            $message    = 'keren';
         } elseif ($score < 40 && $entry) {
             $rewardType = 'punishment';
             $message    = 'Yuk semangat! Lakukan workout 30 menit ekstra hari ini untuk mengejar target. 💪';

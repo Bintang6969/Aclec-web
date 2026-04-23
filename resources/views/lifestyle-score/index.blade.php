@@ -80,8 +80,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($leaderboard as $i => $ls)
-                                <tr class="{{ $ls->user_id == Auth::id() ? 'table-success' : '' }}">
+                                @forelse($topScores as $i => $ls)
+                                <tr class="{{ $ls->user_id == auth()->id() ? 'table-success' : '' }}">
                                     <td class="px-3 text-center fw-bold">
                                         @if($i==0) 🥇 @elseif($i==1) 🥈 @elseif($i==2) 🥉 @else {{ $i+1 }} @endif
                                     </td>
