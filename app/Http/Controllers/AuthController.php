@@ -1,0 +1,86 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Mail\WelcomeMail;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\Rules\Password;
+
+class AuthController extends Controller
+{
+    public function showLogin()
+    {
+        return view('auth.login');
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email'    => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            $request->session()->regenerate();
+            return redirect()->intended(route('dashboard'));
+        }
+
+        return back()->withErrors(['email' => 'Email atau password salah.'])->onlyInput('email');
+    }
+
+    public function showRegister()
+    {
+        return view('auth.register');
+    }
+
+    public function register(Request $request)
+    {
+        $data = $request->validate([
+            'name'           => ['required', 'string', 'max:255'],
+            'email'          => ['required', 'email', 'max:255', 'unique:users'],
+            'password'       => ['required', 'confirmed', Password::min(8)],
+            'gender'         => ['required', 'in:male,female'],
+            'age'            => ['required', 'integer', 'min:10', 'max:100'],
+            'height_cm'      => ['required', 'integer', 'min:100', 'max:250'],
+            'weight_kg'      => ['required', 'integer', 'min:20', 'max:300'],
+            'goal'           => ['required', 'in:bulking,diet,maintenance'],
+            'activity_level' => ['required', 'in:sedentary,light,moderate,active,very_active'],
+        ]);
+
+        $user = User::create([
+            'name'           => $data['name'],
+            'email'          => $data['email'],
+            'password'       => Hash::make($data['password']),
+            'gender'         => $data['gender'],
+            'age'            => $data['age'],
+            'height_cm'      => $data['height_cm'],
+            'weight_kg'      => $data['weight_kg'],
+            'goal'           => $data['goal'],
+            'activity_level' => $data['activity_level'],
+        ]);
+
+        Auth::login($user);
+        $request->session()->regenerate();
+
+        // Send welcome email (non-blocking: failure won't break registration)
+        try {
+            Mail::to($user->email)->send(new WelcomeMail($user));
+        } catch (\Throwable) {
+            // Log silently — do not disrupt the user flow
+        }
+
+        return redirect()->route('dashboard');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('login');
+    }
+}
