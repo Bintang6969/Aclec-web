@@ -1065,12 +1065,7 @@ body {
             <div class="article-img" style="background:linear-gradient(135deg,#f5efe6,#ddd0c0)">🥗</div>
             <div class="article-body">
               <div class="article-cat">Nutrisi</div> 
-              <div class="article-title" 
-              ><a href="https://www.alodokter.com/cermat-memilih-makanan-yang-mengandung-protein">5 Makanan Tinggi Protein untuk Mendukung Program Bulking
-                target="_blank">
-                class="read-more"
-             </a>
-              </div>
+              <div class="article-title"</div>
               <div class="article-date">📅 22 April 2026 · 5 menit baca</div>
               
               <div class="article-grid-link">
