@@ -17,6 +17,13 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('gender', ['male', 'female'])->nullable();
+            $table->unsignedTinyInteger('age')->nullable();
+            $table->unsignedSmallInteger('height_cm')->nullable();
+            $table->unsignedSmallInteger('weight_kg')->nullable();
+            $table->enum('goal', ['bulking', 'diet', 'maintenance'])->default('maintenance');
+            $table->enum('activity_level', ['sedentary', 'light', 'moderate', 'active', 'very_active'])->default('moderate');
+            $table->string('avatar')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
