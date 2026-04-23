@@ -1062,13 +1062,11 @@ body {
         </div>
         <div class="article-grid">
           <div class="article-card">
-            <div class="article-img" style="background:linear-gradient(135deg,#f5efe6,#ddd0c0)">🥗</div>
+            <div class="aricle-img" style="background:linear-gradient(135deg,#f5efe6,#ddd0c0)">🥗</div>
             <div class="article-body">
               <div class="article-cat">Nutrisi</div> 
-              <div class="article-title"</div>
-              <div class="article-date">📅 22 April 2026 · 5 menit baca</div>
-              
-              <div class="article-grid-link">
+              <a class="article-title" href="https://www.alodokter.com/cermat-memilih-makanan-yang-mengandung-protein">5 Resep Salad Sehat yang Mudah Dibuat di Rumah</a>
+              <div class="article-date"><p><a class="link-opacity-10" href="https://www.alodokter.com/cermat-memilih-makanan-yang-mengandung-protein">Link opacity 10</a></p></div>
             </div>
           </div>
           <div class="article-card">
