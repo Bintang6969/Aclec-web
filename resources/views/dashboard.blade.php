@@ -1064,18 +1064,16 @@ body {
           <div class="article-card">
             <div class="article-img" style="background:linear-gradient(135deg,#f5efe6,#ddd0c0)">🥗</div>
             <div class="article-body">
-              <div class="article-cat">Nutrisi</div> <a href="https://www.alodokter.com/cermat-memilih-makanan-yang-mengandung-protein" 
-                target="_blank"
+              <div class="article-cat">Nutrisi</div> 
+              <div class="article-title" 
+              ><a href="https://www.alodokter.com/cermat-memilih-makanan-yang-mengandung-protein">5 Makanan Tinggi Protein untuk Mendukung Program Bulking
+                target="_blank">
                 class="read-more"
-              <div class="article-title" href="https://www.alodokter.com/cermat-memilih-makanan-yang-mengandung-protein">5 Makanan Tinggi Protein untuk Mendukung Program Bulking</div>
+             </a>
+              </div>
               <div class="article-date">📅 22 April 2026 · 5 menit baca</div>
               
               <div class="article-grid-link">
-                <a href="https://www.alodokter.com/cermat-memilih-makanan-yang-mengandung-protein" 
-                target="_blank"
-                class="read-more"
-                Baca Selengkapnya <span>👉</span>
-              </a>
             </div>
           </div>
           <div class="article-card">
